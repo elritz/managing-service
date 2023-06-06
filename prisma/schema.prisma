@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+  url      = "postgresql://root:root@localhost:5432/managing?schema=public"
+  // url      = "postgresql://root:root@localhost:5432/profiling?schema=public"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+  // clientOutput = "./client"
+  output   = "./generated.d.ts"
+}
+
+generator pothosCrud {
+  provider            = "prisma-generator-pothos-codegen"
+  generatorConfigPath = "./pothos.config.js"
+}
+
+model PushToken {
+  id           String    @id @default(uuid())
+  isExpired    Boolean   @default(false)
+  expoToken    String?
+  androidToken String?
+  appleToken   String?
+  Device       Device?
+  receipts     Json[]
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
+}
+
+model Device {
+  id              String        @id @default(uuid())
+  deviceType      String?
+  DeviceManager   DeviceManager @relation(fields: [deviceManagerId], references: [id])
+  deviceManagerId String        @unique
+  PushToken       PushToken?    @relation(fields: [pushTokenId], references: [id])
+  pushTokenId     String?       @unique
+  createdAt       DateTime?     @default(now())
+  updatedAt       DateTime?     @updatedAt
+}
+
+model DeviceManager {
+  id            String          @id @default(uuid())
+  Device        Device?
+  DeviceProfile DeviceProfile[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model DeviceProfile {
+  id              String        @id @default(uuid())
+  AppType         AppType?
+  ProfileType     ProfileType?
+  profileId       String?
+  isActive        Boolean
+  DeviceManager   DeviceManager @relation(fields: [deviceManagerId], references: [id])
+  accesstoken     String?
+  RefreshToken    RefreshToken?
+  deviceManagerId String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model RefreshToken {
+  id              Int            @id @default(autoincrement())
+  token           String         @unique
+  DeviceProfile   DeviceProfile? @relation(fields: [DeviceProfileId], references: [id])
+  DeviceProfileId String?        @unique
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+enum AppType {
+  BARFRIENDS
+  PETFRIENDS
+}
+
+enum ProfileType {
+  PERSONAL
+  VENUE
+  GUEST
+}

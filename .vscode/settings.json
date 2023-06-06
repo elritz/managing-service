@@ -1,0 +1,21 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#03fc03",
+    "titleBar.activeForeground": "#000000",
+    "titleBar.inactiveForeground": "#000000",
+    "titleBar.inactiveBackground": "#03fc03",
+    "statusBar.foreground": "#000000",
+    "statusBar.background": "#03fc03",
+    "editor.selectionBackground": "#03fc03",
+    "editor.selectionHighlightBackground": "#03fc03",
+    "terminal.selectionBackground": "#03fc03"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "jest.jestCommandLine": "jest",
+  "githubPullRequests.ignoredPullRequestBranches": ["main"],
+  "dotenv.enableAutocloaking": false
+}
