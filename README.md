@@ -1,9 +1,6 @@
-# barfriends-messaging
+# Managing
 
-### Stack
-- pothos
-  - plugins
-    - federation 
-    - prisma
-    - object
+- create anonomous accounts
+- service agnostic
+- gRPC Communication (external uses, ie Push Notification, SMS etc )
     
